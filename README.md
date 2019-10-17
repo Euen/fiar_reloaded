@@ -1,2 +1,9 @@
-# fiar_reloaded
-Fiar - a project to try and discover Erlang
+fiar
+=====
+
+Four in a row - a game to try and discover Erlang
+
+Build
+-----
+
+    $ rebar3 compile

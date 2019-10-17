@@ -1,0 +1,23 @@
+{application, fiar,
+ [{description, "Four in a row - a game to try Erlang"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, {fiar, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    mixer,
+    cowboy,
+    trails,
+    cowboy_swagger,
+    sumo_db
+   ]},
+  {env,[]},
+  {modules, []},
+  {start_phases, [
+    {start_web_server, []}
+  ]},
+  {maintainers, []},
+  {licenses, ["Apache 2.0"]},
+  {links, []}
+ ]}.
