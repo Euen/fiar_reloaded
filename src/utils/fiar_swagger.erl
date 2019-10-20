@@ -11,7 +11,8 @@
 %% Definitions
 -export([
   current_user/0,
-  current_matches/0
+  current_matches/0,
+  user/0
 ]).
 
 %%%===================================================================
@@ -30,7 +31,9 @@
 add_definitions() ->
   Defs = [
     {<<"current_user">>, current_user()},
-    {<<"current_matches">>, current_matches()}
+    {<<"current_matches">>, current_matches()},
+    {<<"user">>, user()},
+    {<<"error">>, error()}
   ],
 
   lists:foreach(fun({Name, Props}) ->
@@ -48,26 +51,41 @@ basic_auth() ->
     default     => <<"Basic base64(username:password)">>
   }.
 
-% -spec changeset_error_view() -> map().
-% changeset_error_view() ->
-%   #{
-%     errors => #{
-%       type                 => <<"object">>,
-%       description          => <<"Errors Map">>,
-%       additionalProperties => #{type => <<"string">>}
-%     }
-%   }.
+-spec error_view() -> map().
+error_view() ->
+  #{
+    errors => #{
+      type        => <<"array">>,
+      description => <<"Errors Map">>,
+      items       => schema(<<"error">>)
+    }
+  }.
 
-% -spec error_view() -> map().
-% error_view() ->
-%   #{
-%     error => #{
-%       type        => <<"string">>,
-%       description => <<"Error description">>
-%     }
-%   }.
+-spec error() -> map().
+error() ->
+  #{
+    message => #{
+      type => string,
+      description => <<"Error message">>
+    }
+  }.
 
 -spec response(response()) -> map().
+response(StatusCode) when is_integer(StatusCode), StatusCode >= 400, StatusCode < 600 ->
+  #{
+    description => http_error_desc(StatusCode),
+    schema => #{
+      type       => <<"object">>,
+      properties => error_view()
+    }
+  };
+
+response(204) ->
+  #{description => <<"no content provided">>};
+
+response(202) ->
+  #{description => <<"Request accepted">>};
+
 response(Def) ->
   schema(Def).
 
@@ -102,6 +120,7 @@ current_user() ->
     }
   }.
 
+-spec current_matches() -> map().
 current_matches() ->
   #{
     player_id1 => #{
@@ -126,6 +145,15 @@ current_matches() ->
     }
   }.
 
+-spec user() -> map().
+user() ->
+  #{
+    username => #{
+      type => string,
+      description => <<"Username">>
+    }
+  }.
+
 %%%===================================================================
 %%% Internal functions
 %%%===================================================================
@@ -135,10 +163,30 @@ schema({Def, array}) ->
   #{
     schema => #{
       type  => <<"array">>,
-      items => cowboy_swagger:schema(atom_to_binary(Def, utf8))
+      items => cowboy_swagger:schema(fiar_utils:to_bin(Def))
     }
   };
+
 schema(Def) ->
   #{
-    schema => cowboy_swagger:schema(atom_to_binary(Def, utf8))
+    schema => cowboy_swagger:schema(fiar_utils:to_bin(Def))
   }.
+
+% http_error_desc(400) ->
+%   <<"malformed request syntax, size too large or invalid request message framing">>;
+http_error_desc(401) ->
+  <<"authentication failed">>;
+% http_error_desc(403) ->
+%   <<"authorization failed">>;
+% http_error_desc(404) ->
+%   <<"requested resource wasn't found">>;
+http_error_desc(422) ->
+  <<"request was well-formed but was unable to be followed due to semantic errors">>;
+% http_error_desc(500) ->
+%   <<"internal server error">>;
+% http_error_desc(503) ->
+%   <<"service unavailable">>;
+% http_error_desc(504) ->
+%   <<"Gateway timeout">>;
+http_error_desc(_) ->
+  <<"">>.

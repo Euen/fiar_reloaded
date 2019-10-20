@@ -27,7 +27,7 @@ trails() ->
       description => "Gets info about logged user",
       produces => ["application/json"],
       parameters => [fiar_swagger:basic_auth()],
-      responses => fiar_swagger:responses([{200, current_user}])
+      responses => fiar_swagger:responses([{200, current_user}, 401])
     }
   },
 
