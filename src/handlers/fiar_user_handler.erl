@@ -27,7 +27,7 @@ trails() ->
       description => "Create a new User",
       produces => ["application/json"],
       parameters => [fiar_swagger:basic_auth()],
-      responses => fiar_swagger:responses([{200, user}])
+      responses => fiar_swagger:responses([{200, user}, 422])
     }
   },
 
