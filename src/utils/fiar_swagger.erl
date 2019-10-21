@@ -3,6 +3,8 @@
 %% API
 -export([
   add_definitions/0,
+  body/1,
+  body/2,
   basic_auth/0,
   response/1,
   responses/1
@@ -12,6 +14,7 @@
 -export([
   current_user/0,
   current_matches/0,
+  user_req/0,
   user/0
 ]).
 
@@ -32,6 +35,7 @@ add_definitions() ->
   Defs = [
     {<<"current_user">>, current_user()},
     {<<"current_matches">>, current_matches()},
+    {<<"user_req">>, user_req()},
     {<<"user">>, user()},
     {<<"error">>, error()}
   ],
@@ -39,6 +43,39 @@ add_definitions() ->
   lists:foreach(fun({Name, Props}) ->
     ok = cowboy_swagger:add_definition(Name, Props)
   end, Defs).
+
+-spec body(atom()) -> map().
+body(Def) ->
+  body(Def, []).
+
+-spec body(atom() | {atom(), array}, list()) -> map().
+body({Def, array}, Required) ->
+  #{
+    name => <<"request body">>,
+    in => body,
+    description => <<"request body (as json)">>,
+    required => true,
+    schema => #{
+      type => <<"array">>,
+      items => #{
+        type => <<"object">>,
+        properties => ?MODULE:Def(),
+        required => Required
+      }
+    }
+  };
+body(Def, Required) ->
+  #{
+    name => <<"request body">>,
+    in => body,
+    description => <<"request body (as json)">>,
+    required => true,
+    schema => #{
+      type => <<"object">>,
+      properties => ?MODULE:Def(),
+      required => Required
+    }
+  }.
 
 -spec basic_auth() -> map().
 basic_auth() ->
@@ -142,6 +179,19 @@ current_matches() ->
     board => #{
       type => string,
       description => <<"Board">>
+    }
+  }.
+
+-spec user_req() -> map().
+user_req() ->
+  #{
+    username => #{
+      type => string,
+      description => <<"Username">>
+    },
+    pass => #{
+      type => string,
+      description => <<"Password">>
     }
   }.
 
