@@ -189,7 +189,7 @@ user_req() ->
       type => string,
       description => <<"Username">>
     },
-    pass => #{
+    password => #{
       type => string,
       description => <<"Password">>
     }

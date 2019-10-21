@@ -53,7 +53,7 @@ parse_cookie_auth(Token) ->
   try base64:decode(Token) of
     UserPass ->
       case binary:split(UserPass, <<":">>) of
-        [Username, Pass] -> #{username => Username, password => Pass};
+        [Username, Password] -> #{username => Username, password => Password};
         _ -> undefined
       end
   catch

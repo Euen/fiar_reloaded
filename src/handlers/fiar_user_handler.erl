@@ -28,7 +28,7 @@ trails() ->
       produces => ["application/json"],
       parameters => [
         fiar_swagger:basic_auth(),
-        fiar_swagger:body(user_req, [username, pass])
+        fiar_swagger:body(user_req, [username, password])
       ],
       responses => fiar_swagger:responses([{200, user}, 422])
     }

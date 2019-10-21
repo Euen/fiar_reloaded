@@ -22,8 +22,8 @@ create(Schema) ->
   end.
 
 % -spec get(string(), string()) -> notfound | t().
-% get(Username, Pass) ->
-%   case sumo:find_by(fiar_user, [{username, Username}, {pass, Pass}]) of
+% get(Username, Password) ->
+%   case sumo:find_by(fiar_user, [{username, Username}, {password, Password}]) of
 %     []     -> notfound;
 %     [User] -> User
 %   end.
