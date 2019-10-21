@@ -31,7 +31,7 @@ all() ->
 %%%===================================================================
 
 create(Config) ->
-  Body = #{username => <<"euen">>, pass => <<"123456">>},
+  Body = #{username => <<"euen">>, password => <<"123456">>},
 
   {200, #{<<"username">> := <<"euen">>}} = fiart_http:post(?PATH, Body, Config).
 
@@ -39,11 +39,12 @@ validation_errors(Config) ->
   Bodies = [
     #{},
     #{username => <<"jhon">>},
-    #{username => <<"j@">>, pass => <<"123456">>},
-    #{username => <<"SuperLongNameSuperLongNameSuperLongNameSuperLongName">>, pass => <<"123456">>},
-    #{pass => <<"123456">>},
-    #{username => <<"jhon">>, pass => <<"@1">>},
-    #{username => <<"jhon">>, pass => <<"123456789123456789123456789123456789123456789123456">>}
+    #{username => <<"j@">>, password => <<"123456">>},
+    #{username => <<"SuperLongNameSuperLongNameSuperLongNameSuperLongName">>,
+      password => <<"123456">>},
+    #{password => <<"123456">>},
+    #{username => <<"jhon">>, password => <<"@1">>},
+    #{username => <<"jhon">>, password => <<"123456789123456789123456789123456789123456789123456">>}
   ],
 
   lists:foreach(fun(Body) ->

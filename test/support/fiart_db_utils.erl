@@ -26,7 +26,7 @@ create_user(Field) ->
   Rand = integer_to_binary(rand:uniform(999999)),
   Params = #{
     <<"username">> => <<"name", Rand/binary>>,
-    <<"pass">> => <<"pass", Rand/binary>>
+    <<"password">> => <<"password", Rand/binary>>
   },
   return_field(fiar_user, Field, fiar_user:create(Params)).
 

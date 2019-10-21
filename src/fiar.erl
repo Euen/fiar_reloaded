@@ -49,7 +49,7 @@ stop() ->
 
 -spec create_user(username(), password()) -> user() | {error, term()}.
 create_user(Username, Password) ->
-  fiar_user:create(#{<<"username">> => Username, <<"pass">> => Password}).
+  fiar_user:create(#{<<"username">> => Username, <<"password">> => Password}).
 
 -spec start_match(user_id(), user_id()) -> match_id().
 start_match(UserId1, UserId2) ->

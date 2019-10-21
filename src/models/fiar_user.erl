@@ -40,7 +40,7 @@ sumo_schema() ->
 
 -spec sumo_sleep(sumo:user_doc()) -> sumo:model().
 sumo_sleep(User) ->
-  User.
+  User#{updated_at => calendar:universal_time()}.
 
 -spec sumo_wakeup(sumo:model()) -> sumo:user_doc().
 sumo_wakeup(User) ->
@@ -68,22 +68,16 @@ to_view(#{username := Username}) ->
 get(Field, User) ->
   maps:get(Field, User).
 
-% -spec set(atom(), term(), t()) -> t().
-% set(Field, Value, User) ->
-%   User#{Field => Value}.
-
 %%====================================================================
 %% Helpers
 %%====================================================================
 
 -spec new(map()) -> map().
 new(Params) ->
-  Now = calendar:universal_time(),
   #{
     username   => maps:get(<<"username">>, Params),
-    password   => maps:get(<<"pass">>, Params),
-    created_at => Now,
-    updated_at => Now
+    password   => maps:get(<<"password">>, Params),
+    created_at => calendar:universal_time()
   }.
 
 -spec id_to_bin(id()) -> binary().
@@ -92,8 +86,8 @@ id_to_bin(Id) ->
 
 validate_params(Params) ->
   Validations = [
-    {required, [<<"username">>, <<"pass">>]},
+    {required, [<<"username">>, <<"password">>]},
     {format, <<"username">>, fiar_validator:regex(word)},
-    {format, <<"pass">>, fiar_validator:regex(pass)}
+    {format, <<"password">>, fiar_validator:regex(password)}
   ],
   fiar_validator:run(Params, Validations).
