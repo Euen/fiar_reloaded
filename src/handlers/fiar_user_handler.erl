@@ -22,15 +22,14 @@
 %% @hidden
 trails() ->
   Metadata = #{
-    get => #{
+    post => #{
       tags => ["User"],
       description => "Create a new User",
       produces => ["application/json"],
       parameters => [
-        fiar_swagger:basic_auth(),
         fiar_swagger:body(user_req, [username, password])
       ],
-      responses => fiar_swagger:responses([{200, user}, 422])
+      responses => fiar_swagger:responses([{200, user}, 405, 422])
     }
   },
 

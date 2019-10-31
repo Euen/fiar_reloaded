@@ -30,12 +30,9 @@ create(Schema) ->
 
 -spec find_by_username(username()) -> t() | notfound.
 find_by_username(Username) ->
-  case sumo:find_by(fiar_user, [{username, Username}]) of
-    [User] -> User;
-    _      -> notfound
-  end.
+  sumo:find_one(fiar_user, [{username, Username}]).
 
--spec find_by_id(integer()) -> t().
+-spec find_by_id(integer()) -> t() | notfound.
 find_by_id(UserId) ->
   sumo:find_one(fiar_user, {id, UserId}).
 

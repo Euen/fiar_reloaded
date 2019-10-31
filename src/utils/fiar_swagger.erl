@@ -108,6 +108,9 @@ error() ->
   }.
 
 -spec response(response()) -> map().
+response(405) ->
+  #{description => http_error_desc(405)};
+
 response(StatusCode) when is_integer(StatusCode), StatusCode >= 400, StatusCode < 600 ->
   #{
     description => http_error_desc(StatusCode),
@@ -230,6 +233,8 @@ http_error_desc(401) ->
 %   <<"authorization failed">>;
 % http_error_desc(404) ->
 %   <<"requested resource wasn't found">>;
+http_error_desc(405) ->
+  <<"method not allowed">>;
 http_error_desc(422) ->
   <<"request was well-formed but was unable to be followed due to semantic errors">>;
 % http_error_desc(500) ->
