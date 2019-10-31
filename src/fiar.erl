@@ -73,6 +73,7 @@ current_matches(UserId) ->
 
 -spec start(any(), any()) -> {ok, pid()} | {error, any()}.
 start(_StartType, _StartArgs) ->
+  sumo:create_schema(),
   fiar_sup:start_link().
 
 -spec stop(any()) -> ok.

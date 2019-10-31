@@ -19,9 +19,15 @@ handle_ex(Fun, Req, State) ->
   try
     Fun(Req, State)
   catch
-    Class:Error:Stacktrace ->
+    Class:Error:STrace ->
       % erlang:display([Class, Error, Stacktrace]),
-      handle_ex(Class, Error, Stacktrace, Req, State)
+      ok = lager:warning("~p ~p \n\n Stacktrace: ~s \n\n   ~s\n\n Handler State:\n\n   ~s\n", [
+        Class,
+        Error,
+        io_lib_pretty:print(STrace, [{column, 3}]),
+        io_lib_pretty:print(State,  [{column, 3}])
+      ]),
+      handle_ex(Class, Error, STrace, Req, State)
   end.
 
 -spec response(Method, Response, Req, State) -> Res when
