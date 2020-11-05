@@ -1,12 +1,12 @@
-defmodule FiarRelodedWeb do
+defmodule FiarReloadedWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use FiarRelodedWeb, :controller
-      use FiarRelodedWeb, :view
+      use FiarReloadedWeb, :controller
+      use FiarReloadedWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,19 +19,19 @@ defmodule FiarRelodedWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: FiarRelodedWeb
+      use Phoenix.Controller, namespace: FiarReloadedWeb
 
       import Plug.Conn
-      import FiarRelodedWeb.Gettext
-      alias FiarRelodedWeb.Router.Helpers, as: Routes
+      import FiarReloadedWeb.Gettext
+      alias FiarReloadedWeb.Router.Helpers, as: Routes
     end
   end
 
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/fiar_reloded_web/templates",
-        namespace: FiarRelodedWeb
+        root: "lib/fiar_reloaded_web/templates",
+        namespace: FiarReloadedWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
@@ -45,7 +45,7 @@ defmodule FiarRelodedWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {FiarRelodedWeb.LayoutView, "live.html"}
+        layout: {FiarReloadedWeb.LayoutView, "live.html"}
 
       unquote(view_helpers())
     end
@@ -72,7 +72,7 @@ defmodule FiarRelodedWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import FiarRelodedWeb.Gettext
+      import FiarReloadedWeb.Gettext
     end
   end
 
@@ -87,9 +87,9 @@ defmodule FiarRelodedWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
-      import FiarRelodedWeb.ErrorHelpers
-      import FiarRelodedWeb.Gettext
-      alias FiarRelodedWeb.Router.Helpers, as: Routes
+      import FiarReloadedWeb.ErrorHelpers
+      import FiarReloadedWeb.Gettext
+      alias FiarReloadedWeb.Router.Helpers, as: Routes
     end
   end
 

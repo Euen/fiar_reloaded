@@ -1,9 +1,9 @@
-defmodule FiarReloded.MixProject do
+defmodule FiarReloaded.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :fiar_reloded,
+      app: :fiar_reloaded,
       version: "0.1.0",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule FiarReloded.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {FiarReloded.Application, []},
+      mod: {FiarReloaded.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

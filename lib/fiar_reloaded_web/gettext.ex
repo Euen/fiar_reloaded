@@ -1,11 +1,11 @@
-defmodule FiarRelodedWeb.Gettext do
+defmodule FiarReloadedWeb.Gettext do
   @moduledoc """
   A module providing Internationalization with a gettext-based API.
 
   By using [Gettext](https://hexdocs.pm/gettext),
   your module gains a set of macros for translations, for example:
 
-      import FiarRelodedWeb.Gettext
+      import FiarReloadedWeb.Gettext
 
       # Simple translation
       gettext("Here is the string to translate")
@@ -20,5 +20,5 @@ defmodule FiarRelodedWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :fiar_reloded
+  use Gettext, otp_app: :fiar_reloaded
 end

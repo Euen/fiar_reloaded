@@ -1,4 +1,4 @@
-defmodule FiarRelodedWeb.Telemetry do
+defmodule FiarReloadedWeb.Telemetry do
   use Supervisor
   import Telemetry.Metrics
 
@@ -31,11 +31,11 @@ defmodule FiarRelodedWeb.Telemetry do
       ),
 
       # Database Metrics
-      summary("fiar_reloded.repo.query.total_time", unit: {:native, :millisecond}),
-      summary("fiar_reloded.repo.query.decode_time", unit: {:native, :millisecond}),
-      summary("fiar_reloded.repo.query.query_time", unit: {:native, :millisecond}),
-      summary("fiar_reloded.repo.query.queue_time", unit: {:native, :millisecond}),
-      summary("fiar_reloded.repo.query.idle_time", unit: {:native, :millisecond}),
+      summary("fiar_reloaded.repo.query.total_time", unit: {:native, :millisecond}),
+      summary("fiar_reloaded.repo.query.decode_time", unit: {:native, :millisecond}),
+      summary("fiar_reloaded.repo.query.query_time", unit: {:native, :millisecond}),
+      summary("fiar_reloaded.repo.query.queue_time", unit: {:native, :millisecond}),
+      summary("fiar_reloaded.repo.query.idle_time", unit: {:native, :millisecond}),
 
       # VM Metrics
       summary("vm.memory.total", unit: {:byte, :kilobyte}),
@@ -49,7 +49,7 @@ defmodule FiarRelodedWeb.Telemetry do
     [
       # A module, function and arguments to be invoked periodically.
       # This function must call :telemetry.execute/3 and a metric must be added above.
-      # {FiarRelodedWeb, :count_users, []}
+      # {FiarReloadedWeb, :count_users, []}
     ]
   end
 end

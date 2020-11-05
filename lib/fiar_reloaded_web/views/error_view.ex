@@ -1,5 +1,5 @@
-defmodule FiarRelodedWeb.ErrorView do
-  use FiarRelodedWeb, :view
+defmodule FiarReloadedWeb.ErrorView do
+  use FiarReloadedWeb, :view
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

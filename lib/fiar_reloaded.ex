@@ -1,6 +1,6 @@
-defmodule FiarReloded do
+defmodule FiarReloaded do
   @moduledoc """
-  FiarReloded keeps the contexts that define your domain
+  FiarReloaded keeps the contexts that define your domain
   and business logic.
 
   Contexts are also responsible for managing your data, regardless

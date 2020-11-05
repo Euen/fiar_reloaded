@@ -1,16 +1,16 @@
-defmodule FiarRelodedWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :fiar_reloded
+defmodule FiarReloadedWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :fiar_reloaded
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_fiar_reloded_key",
-    signing_salt: "2wQ19/m5"
+    key: "_fiar_reloaded_key",
+    signing_salt: "eogS9vPJ"
   ]
 
-  socket "/socket", FiarRelodedWeb.UserSocket,
+  socket "/socket", FiarReloadedWeb.UserSocket,
     websocket: true,
     longpoll: false
 
@@ -22,7 +22,7 @@ defmodule FiarRelodedWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :fiar_reloded,
+    from: :fiar_reloaded,
     gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
@@ -32,7 +32,7 @@ defmodule FiarRelodedWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :fiar_reloded
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :fiar_reloaded
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
@@ -50,5 +50,5 @@ defmodule FiarRelodedWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug FiarRelodedWeb.Router
+  plug FiarReloadedWeb.Router
 end

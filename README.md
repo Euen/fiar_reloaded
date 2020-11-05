@@ -1,4 +1,4 @@
-# FiarReloded
+# FiarReloaded
 
 To start your Phoenix server:
 

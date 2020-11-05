@@ -1,11 +1,11 @@
-defmodule FiarRelodedWeb.Router do
-  use FiarRelodedWeb, :router
+defmodule FiarReloadedWeb.Router do
+  use FiarReloadedWeb, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {FiarRelodedWeb.LayoutView, :root}
+    plug :put_root_layout, {FiarReloadedWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -14,14 +14,14 @@ defmodule FiarRelodedWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", FiarRelodedWeb do
+  scope "/", FiarReloadedWeb do
     pipe_through :browser
 
     live "/", PageLive, :index
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", FiarRelodedWeb do
+  # scope "/api", FiarReloadedWeb do
   #   pipe_through :api
   # end
 
@@ -37,7 +37,7 @@ defmodule FiarRelodedWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: FiarRelodedWeb.Telemetry
+      live_dashboard "/dashboard", metrics: FiarReloadedWeb.Telemetry
     end
   end
 end

@@ -1,5 +1,5 @@
-defmodule FiarRelodedWeb.PageLive do
-  use FiarRelodedWeb, :live_view
+defmodule FiarReloadedWeb.PageLive do
+  use FiarReloadedWeb, :live_view
 
   @impl true
   def mount(_params, _session, socket) do
@@ -26,7 +26,7 @@ defmodule FiarRelodedWeb.PageLive do
   end
 
   defp search(query) do
-    if not FiarRelodedWeb.Endpoint.config(:code_reloader) do
+    if not FiarReloadedWeb.Endpoint.config(:code_reloader) do
       raise "action disabled when not in development"
     end
 

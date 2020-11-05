@@ -1,4 +1,4 @@
-defmodule FiarRelodedWeb.ConnCase do
+defmodule FiarReloadedWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,7 +11,7 @@ defmodule FiarRelodedWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use FiarRelodedWeb.ConnCase, async: true`, although
+  by setting `use FiarReloadedWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -22,20 +22,20 @@ defmodule FiarRelodedWeb.ConnCase do
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import FiarRelodedWeb.ConnCase
+      import FiarReloadedWeb.ConnCase
 
-      alias FiarRelodedWeb.Router.Helpers, as: Routes
+      alias FiarReloadedWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
-      @endpoint FiarRelodedWeb.Endpoint
+      @endpoint FiarReloadedWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(FiarReloded.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(FiarReloaded.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(FiarReloded.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(FiarReloaded.Repo, {:shared, self()})
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}

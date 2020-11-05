@@ -1,5 +1,5 @@
-defmodule FiarRelodedWeb.PageLiveTest do
-  use FiarRelodedWeb.ConnCase
+defmodule FiarReloadedWeb.PageLiveTest do
+  use FiarReloadedWeb.ConnCase
 
   import Phoenix.LiveViewTest
 
