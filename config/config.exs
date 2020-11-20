@@ -7,16 +7,16 @@
 # General application configuration
 use Mix.Config
 
-config :fiar_reloded,
-  ecto_repos: [FiarReloded.Repo]
+config :fiar_reloaded,
+  ecto_repos: [FiarReloaded.Repo]
 
 # Configures the endpoint
-config :fiar_reloded, FiarRelodedWeb.Endpoint,
+config :fiar_reloaded, FiarReloadedWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "vSvaBSxFlTbgoTaayIOk47lw+sBRAxdD24KPkKk7mNUXVXe0K8mhlm4EXgTSIh1c",
-  render_errors: [view: FiarRelodedWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: FiarReloded.PubSub,
-  live_view: [signing_salt: "fgpw4K+x"]
+  secret_key_base: "kM+I5bEqT1QC6JKHKuoXfhLGLBZba1YUpgzp2UsgGR7fqgnEWtJM9bzeZeJ7p0r3",
+  render_errors: [view: FiarReloadedWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: FiarReloaded.PubSub,
+  live_view: [signing_salt: "T17VERtb"]
 
 # Configures Elixir's Logger
 config :logger, :console,

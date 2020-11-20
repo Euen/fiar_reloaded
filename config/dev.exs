@@ -1,10 +1,10 @@
 use Mix.Config
 
 # Configure your database
-config :fiar_reloded, FiarReloded.Repo,
+config :fiar_reloaded, FiarReloaded.Repo,
   username: "postgres",
   password: "postgres",
-  database: "fiar_reloded_dev",
+  database: "fiar_reloaded_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -15,7 +15,7 @@ config :fiar_reloded, FiarReloded.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :fiar_reloded, FiarRelodedWeb.Endpoint,
+config :fiar_reloaded, FiarReloadedWeb.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
@@ -55,13 +55,13 @@ config :fiar_reloded, FiarRelodedWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :fiar_reloded, FiarRelodedWeb.Endpoint,
+config :fiar_reloaded, FiarReloadedWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/fiar_reloded_web/(live|views)/.*(ex)$",
-      ~r"lib/fiar_reloded_web/templates/.*(eex)$"
+      ~r"lib/fiar_reloaded_web/(live|views)/.*(ex)$",
+      ~r"lib/fiar_reloaded_web/templates/.*(eex)$"
     ]
   ]
 

@@ -1,4 +1,4 @@
-defmodule FiarRelodedWeb.ChannelCase do
+defmodule FiarReloadedWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -11,7 +11,7 @@ defmodule FiarRelodedWeb.ChannelCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use FiarRelodedWeb.ChannelCase, async: true`, although
+  by setting `use FiarReloadedWeb.ChannelCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -21,18 +21,18 @@ defmodule FiarRelodedWeb.ChannelCase do
     quote do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
-      import FiarRelodedWeb.ChannelCase
+      import FiarReloadedWeb.ChannelCase
 
       # The default endpoint for testing
-      @endpoint FiarRelodedWeb.Endpoint
+      @endpoint FiarReloadedWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(FiarReloded.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(FiarReloaded.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(FiarReloded.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(FiarReloaded.Repo, {:shared, self()})
     end
 
     :ok
