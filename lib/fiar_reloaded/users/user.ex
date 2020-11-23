@@ -14,5 +14,7 @@ defmodule FiarReloaded.Users.User do
     user
     |> cast(attrs, [:username, :password])
     |> validate_required([:username, :password])
+    |> validate_length(:password, min: 6)
+    |> unique_constraint(:username)
   end
 end
