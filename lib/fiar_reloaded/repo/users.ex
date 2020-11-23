@@ -21,6 +21,9 @@ defmodule FiarReloaded.Repo.Users do
     Repo.all(User)
   end
 
+  @spec get_by_username(String.t()) :: Repo.result_tuple()
+  def get_by_username(username), do: Repo.tupled_get_by(User, username: username)
+
   @doc """
   Gets a single user.
 
