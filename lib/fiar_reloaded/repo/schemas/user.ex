@@ -1,4 +1,4 @@
-defmodule FiarReloaded.Users.User do
+defmodule FiarReloaded.Repo.Schemas.User do
   use Ecto.Schema
   import Ecto.Changeset
 

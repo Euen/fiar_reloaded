@@ -1,4 +1,4 @@
-defmodule FiarReloaded.Users do
+defmodule FiarReloaded.Repo.Users do
   @moduledoc """
   The Users context.
   """
@@ -6,7 +6,7 @@ defmodule FiarReloaded.Users do
   import Ecto.Query, warn: false
   alias FiarReloaded.Repo
 
-  alias FiarReloaded.Users.User
+  alias FiarReloaded.Repo.Schemas.User
 
   @doc """
   Returns the list of users.

@@ -1,10 +1,10 @@
-defmodule FiarReloaded.UsersTest do
+defmodule FiarReloaded.Repo.UsersTest do
   use FiarReloaded.DataCase
 
-  alias FiarReloaded.Users
+  alias FiarReloaded.Repo.Users
 
   describe "users" do
-    alias FiarReloaded.Users.User
+    alias FiarReloaded.Repo.Schemas.User
 
     @valid_attrs %{password: "some password", username: "some username"}
     @update_attrs %{password: "some updated password", username: "some updated username"}

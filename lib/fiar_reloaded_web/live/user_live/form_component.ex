@@ -1,7 +1,7 @@
 defmodule FiarReloadedWeb.UserLive.FormComponent do
   use FiarReloadedWeb, :live_component
 
-  alias FiarReloaded.Users
+  alias FiarReloaded.Repo.Users
 
   @impl true
   def update(%{user: user} = assigns, socket) do

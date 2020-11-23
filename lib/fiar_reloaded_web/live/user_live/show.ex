@@ -1,7 +1,7 @@
 defmodule FiarReloadedWeb.UserLive.Show do
   use FiarReloadedWeb, :live_view
 
-  alias FiarReloaded.Users
+  alias FiarReloaded.Repo.Users
 
   @impl true
   def mount(_params, _session, socket) do
