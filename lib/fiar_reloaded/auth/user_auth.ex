@@ -16,15 +16,14 @@ defmodule FiarReloaded.Auth.UserAuth do
   end
 
   @spec login(Plug.Conn.t(), String.t(), String.t()) ::
-          {:ok, Plug.Conn.t()} | {:error, :invalid_credentials, Plug.Conn.t()}
+          {:ok, Plug.Conn.t(), User.t()} | {:error, :invalid_credentials, Plug.Conn.t()}
   def login(conn, username, password) do
     case authenticate(username, password) do
       {:ok, user} ->
         ttl = Application.get_env(:fiar_reloaded, Guardian)[:ttl]
-        IO.inspect(ttl, label: "ttl")
         conn = Guardian.Plug.sign_in(conn, user, %{}, ttl: ttl)
 
-        {:ok, conn}
+        {:ok, conn, user}
 
       {:error, :invalid_credentials} ->
         {:error, :invalid_credentials, conn}

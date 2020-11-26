@@ -25,8 +25,7 @@ defmodule FiarReloadedWeb.Router do
     post "/login", SessionController, :create
     get "/logout", SessionController, :delete
 
-    live "/", PageLive, :index
-    live "/users", UserLive.Index, :index
+    live "/", UserLive.Index, :index
     live "/users/new", UserLive.Index, :new
     live "/users/:id/edit", UserLive.Index, :edit
 

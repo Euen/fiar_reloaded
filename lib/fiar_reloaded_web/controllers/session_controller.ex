@@ -16,8 +16,9 @@ defmodule FiarReloadedWeb.SessionController do
 
   def create(conn, %{"user" => %{"username" => username, "password" => password}}) do
     case UserAuth.login(conn, username, password) do
-      {:ok, conn} ->
+      {:ok, conn, user} ->
         conn
+        |> put_session(:user_id, user.id)
         |> redirect(to: Routes.user_index_path(conn, :index))
 
       {:error, :invalid_credentials, conn} ->

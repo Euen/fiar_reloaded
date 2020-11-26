@@ -39,8 +39,6 @@ defmodule FiarReloadedWeb do
 
       # Include shared imports and aliases for views
       unquote(view_helpers())
-
-      import FiarReloadedWeb.ViewHelper
     end
   end
 
@@ -93,6 +91,7 @@ defmodule FiarReloadedWeb do
       import FiarReloadedWeb.ErrorHelpers
       import FiarReloadedWeb.Gettext
       alias FiarReloadedWeb.Router.Helpers, as: Routes
+      import FiarReloadedWeb.ViewHelper
     end
   end
 

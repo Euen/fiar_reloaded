@@ -6,7 +6,7 @@ defmodule FiarReloadedWeb.UserLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :users, list_users())}
+    {:ok, assign(socket, users: list_users())}
   end
 
   @impl true
