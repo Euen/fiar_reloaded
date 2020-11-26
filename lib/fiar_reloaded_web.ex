@@ -91,6 +91,7 @@ defmodule FiarReloadedWeb do
       import FiarReloadedWeb.ErrorHelpers
       import FiarReloadedWeb.Gettext
       alias FiarReloadedWeb.Router.Helpers, as: Routes
+      import FiarReloadedWeb.ViewHelper
     end
   end
 

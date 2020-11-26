@@ -18,6 +18,12 @@ config :fiar_reloaded, FiarReloadedWeb.Endpoint,
   pubsub_server: FiarReloaded.PubSub,
   live_view: [signing_salt: "T17VERtb"]
 
+# Configure Authentication
+config :fiar_reloaded, FiarReloadedWeb.Auth.Guardian,
+  ttl: {1800, :seconds},
+  issuer: "fiar_reloaded",
+  secret_key: "6e5gCAVeOrtZsmB1ir6TgdjWzfb9GZD6a5qYKoPBKVGH4pBSd6TZ+guUlqjumWE3"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

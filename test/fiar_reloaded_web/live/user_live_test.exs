@@ -3,7 +3,7 @@ defmodule FiarReloadedWeb.UserLiveTest do
 
   import Phoenix.LiveViewTest
 
-  alias FiarReloaded.Users
+  alias FiarReloaded.Repo.Users
 
   @create_attrs %{password: "some password", username: "some username"}
   @update_attrs %{password: "some updated password", username: "some updated username"}

@@ -1,12 +1,12 @@
 defmodule FiarReloadedWeb.UserLive.Index do
   use FiarReloadedWeb, :live_view
 
-  alias FiarReloaded.Users
-  alias FiarReloaded.Users.User
+  alias FiarReloaded.Repo.Users
+  alias FiarReloaded.Repo.Schemas.User
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :users, list_users())}
+    {:ok, assign(socket, users: list_users())}
   end
 
   @impl true

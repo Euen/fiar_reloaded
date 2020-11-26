@@ -1,10 +1,10 @@
-defmodule FiarReloaded.UsersTest do
+defmodule FiarReloaded.Repo.UsersTest do
   use FiarReloaded.DataCase
 
-  alias FiarReloaded.Users
+  alias FiarReloaded.Repo.Users
 
   describe "users" do
-    alias FiarReloaded.Users.User
+    alias FiarReloaded.Repo.Schemas.User
 
     @valid_attrs %{password: "some password", username: "some username"}
     @update_attrs %{password: "some updated password", username: "some updated username"}
@@ -31,7 +31,7 @@ defmodule FiarReloaded.UsersTest do
 
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Users.create_user(@valid_attrs)
-      assert user.password == "some password"
+      assert {:ok, user} == Argon2.check_pass(user, "some password", hash_key: :password)
       assert user.username == "some username"
     end
 
@@ -42,7 +42,7 @@ defmodule FiarReloaded.UsersTest do
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
       assert {:ok, %User{} = user} = Users.update_user(user, @update_attrs)
-      assert user.password == "some updated password"
+      assert {:ok, user} == Argon2.check_pass(user, "some updated password", hash_key: :password)
       assert user.username == "some updated username"
     end
 

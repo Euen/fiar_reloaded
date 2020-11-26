@@ -1,11 +1,11 @@
 defmodule FiarReloadedWeb.UserLive.Show do
   use FiarReloadedWeb, :live_view
 
-  alias FiarReloaded.Users
+  alias FiarReloaded.Repo.Users
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
+  def mount(_params, %{"user_id" => user_id}, socket) do
+    {:ok, assign_new(socket, :current_user, fn -> Users.get_user!(user_id) end)}
   end
 
   @impl true

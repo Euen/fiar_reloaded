@@ -10,15 +10,22 @@ defmodule FiarReloadedWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :auth do
+    plug FiarReloadedWeb.Auth.Pipeline
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
 
   scope "/", FiarReloadedWeb do
-    pipe_through :browser
+    pipe_through [:browser, :auth]
 
-    live "/", PageLive, :index
-    live "/users", UserLive.Index, :index
+    get "/login", SessionController, :new
+    post "/login", SessionController, :create
+    get "/logout", SessionController, :delete
+
+    live "/", UserLive.Index, :index
     live "/users/new", UserLive.Index, :new
     live "/users/:id/edit", UserLive.Index, :edit
 
