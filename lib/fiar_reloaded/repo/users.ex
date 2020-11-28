@@ -8,6 +8,10 @@ defmodule FiarReloaded.Repo.Users do
 
   alias FiarReloaded.Repo.Schemas.User
 
+  def new(username) do
+    %User{username: username}
+  end
+
   @doc """
   Returns the list of users.
 
