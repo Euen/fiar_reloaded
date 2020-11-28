@@ -1,16 +1,17 @@
 defmodule FiarReloaded.CoreTest do
   use ExUnit.Case, async: true
   alias FiarReloaded.Core
-  alias FiarReloaded.Repo.Schemas.{Game, Board, Player}
+  alias FiarReloaded.Repo.Users
+  alias FiarReloaded.Repo.Schemas.{Game, Board}
   alias FiarReloaded.Test.BoardHelper
 
   test "start_game/2 starts a new game with the given player names" do
     assert %Game{
              board: %Board{state: {[], [], [], [], [], [], []}},
              next_chip: 1,
-             player1: %Player{name: "Player1"},
-             player2: %Player{name: "Player2"}
-           } == Core.start_game("Player1", "Player2")
+             player1: Users.new("player1"),
+             player2: Users.new("player2")
+           } == Core.start_game("player1", "player2")
   end
 
   describe "play/2" do

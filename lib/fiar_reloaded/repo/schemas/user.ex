@@ -3,6 +3,10 @@ defmodule FiarReloaded.Repo.Schemas.User do
   import Ecto.Changeset
   alias FiarReloaded.Auth.Hash
 
+  @type t() :: %__MODULE__{
+    :username => String.t()
+  }
+
   schema "users" do
     field :password, :string
     field :username, :string
