@@ -30,6 +30,7 @@ defmodule FiarReloadedWeb.SessionController do
 
   def delete(conn, _) do
     conn
+    |> clear_session()
     |> Guardian.Plug.sign_out()
     |> redirect(to: Routes.user_index_path(conn, :index))
   end

@@ -7,6 +7,7 @@ defmodule FiarReloadedWeb.UserLive.Show do
   def mount(_params, %{"user_id" => user_id}, socket) do
     {:ok, assign_new(socket, :current_user, fn -> Users.get_user!(user_id) end)}
   end
+  def mount(_params, _session, socket), do: {:ok, assign(socket, current_user: nil)}
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do

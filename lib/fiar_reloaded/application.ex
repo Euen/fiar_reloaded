@@ -13,6 +13,8 @@ defmodule FiarReloaded.Application do
       FiarReloadedWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: FiarReloaded.PubSub},
+      # Start Presence
+      FiarReloadedWeb.Presence,
       # Start the Endpoint (http/https)
       FiarReloadedWeb.Endpoint
       # Start a worker by calling: FiarReloaded.Worker.start_link(arg)
