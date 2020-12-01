@@ -33,4 +33,15 @@
   </tbody>
 </table>
 
+    <div>
+      <h2>Users online:</h2>
+      <%= for {user_id, user} <- @logged_users do %>
+        <%= if !is_nil(@current_user) and user_id == Integer.to_string(@current_user.id) do %>
+          <span><%= user.username %> (me)</span>
+        <% else %>
+          <span><%= user.username %></span>
+        <% end %>
+      <% end %>
+    </div>
+
 <span><%= live_patch "New User", to: Routes.user_index_path(@socket, :new) %></span>
