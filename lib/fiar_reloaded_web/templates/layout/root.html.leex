@@ -12,6 +12,7 @@
   <body>
     <header>
       <section class="container">
+        <h1>Fiar</h1>
         <nav role="navigation">
           <ul>
             <%= if logged_in?(@conn) do %>
@@ -21,7 +22,6 @@
             <% end %>
           </ul>
         </nav>
-        <h1><%= if current_user(@conn), do: current_user(@conn).username %></h1>
       </section>
     </header>
     <%= @inner_content %>

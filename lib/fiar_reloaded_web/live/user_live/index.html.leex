@@ -1,5 +1,3 @@
-<h1>Listing Users</h1>
-
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal @socket, FiarReloadedWeb.UserLive.FormComponent,
     id: @user.id || :new,
@@ -9,39 +7,47 @@
     return_to: Routes.session_path(@socket, :new) %>
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Username</th>
-      <th>Password</th>
+<%= if @current_user do %>
+  <h1><%= @current_user.username %></h1>
+<% end %>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="users">
-    <%= for user <- @users do %>
-      <tr id="user-<%= user.id %>">
-        <td><%= user.username %></td>
-        <td><%= user.password %></td>
+<%= if @game do %>
+  <div id="game_title">
+    <h3><%= @game.player1.username %></h3> vs <h3><%= @game.player2.username %></h3>
+  </div>
+<% end %>
 
-        <td>
-          <span><%= live_redirect "Show", to: Routes.user_show_path(@socket, :show, user) %></span>
-          <span><%= live_patch "Edit", to: Routes.user_index_path(@socket, :edit, user) %></span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-    <div>
-      <h2>Users online:</h2>
-      <%= for {user_id, user} <- @logged_users do %>
-        <%= if !is_nil(@current_user) and user_id == Integer.to_string(@current_user.id) do %>
-          <span><%= user.username %> (me)</span>
-        <% else %>
-          <span><%= user.username %></span>
-        <% end %>
+<section>
+  <div class="grid" phx-window-keyup="drop_chip" phx-key="ArrowDown">
+    <b class="r1 c1"> <div id="circle"></div> </b> <b class="r1 c2"></b> <b class="r1 c3"></b> <b class="r1 c4"></b> <b class="r1 c5"></b> <b class="r1 c6"></b> <b class="r1 c7"></b>
+    <%= if is_nil(@board) do %>
+      <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
+      <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
+      <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
+      <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
+      <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
+      <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
+    <% else %>
+      <%= for column <- @board, elem <- column do %>
+        <b><%= elem %>></b>
       <% end %>
-    </div>
+    <% end %>
+  </div>
 
-<span><%= live_patch "New User", to: Routes.user_index_path(@socket, :new) %></span>
+  <div id="players">
+    <h2>Users online:</h2>
+    <div>
+      <ul>
+        <%= for {user_id, user} <- @logged_users do %>
+          <%= if !is_nil(@current_user) and user_id == Integer.to_string(@current_user.id) do %>
+            <li><%= user.username %> (me)</li>
+          <% else %>
+            <li><%= user.username %></li>
+            <li><button phx-click="start_game" phx-value-p2_name="<%= user.username %>">start game</button></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+</section>

@@ -9,4 +9,6 @@ defmodule FiarReloaded do
   defdelegate start_game(player1_name, player2_name), to: FiarReloaded.Core
 
   defdelegate play(game, column), to: FiarReloaded.Core
+
+  defdelegate is_user_turn(game, user), to: FiarReloaded.Core
 end

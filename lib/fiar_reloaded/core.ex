@@ -17,6 +17,15 @@ defmodule FiarReloaded.Core do
     end
   end
 
+  @spec is_user_turn(Game.t(), User.t()) :: boolean()
+  def is_user_turn(game, current_user) do
+    player = get_player_by_turn(game.next_chip)
+    current_user.username == Map.get(game, player).username
+  end
+
+  defp get_player_by_turn(1), do: :player1
+  defp get_player_by_turn(2), do: :player2
+
   @spec validate_col_number(integer()) :: :ok | {:error, :invalid_column}
   defp validate_col_number(col_number) when col_number in 1..7, do: :ok
   defp validate_col_number(_), do: {:error, :invalid_column}
