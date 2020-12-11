@@ -3,7 +3,11 @@
     <b class="r1 c2"></b>
     <b class="r1 c3"></b>
     <b class="r1 c4">
-        <div id ="circle" class="circle"></div>
+        <%= if is_nil(@game) do %>
+            <div id ="circle" class="circle"></div>
+        <% else %>
+            <div id ="circle" class="circle p<%= get_player_number(@game, @current_user) %>"></div>
+        <% end %>
     </b>
     <b class="r1 c5"></b>
     <b class="r1 c6"></b>

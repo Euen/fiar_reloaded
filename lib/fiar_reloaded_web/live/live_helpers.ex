@@ -20,4 +20,8 @@ defmodule FiarReloadedWeb.LiveHelpers do
     modal_opts = [id: :modal, return_to: path, component: component, opts: opts]
     live_component(socket, FiarReloadedWeb.ModalComponent, modal_opts)
   end
+
+  def get_player_number(%{:player1 => %{username: username}}, %{:username => username}), do: 1
+  def get_player_number(%{:player2 => %{username: username}}, %{:username => username}), do: 2
+
 end

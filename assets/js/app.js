@@ -99,7 +99,7 @@ function moveLeft() {
 }
 
 let transitionEndCallback = (e) => {
-  let className = e.target.classList[1];
+  let className = get_animate_class(e.target);
   circle.removeEventListener(transitionEvent, transitionEndCallback);
   circle.classList.remove(className);
   switch (className) {
@@ -113,3 +113,11 @@ let transitionEndCallback = (e) => {
       break;
   }
 };
+
+function get_animate_class(element){
+  if (element.classList.contains("animate-right")) {
+    return "animate-right";
+  } else {
+    return "animate-left";
+  }
+}
