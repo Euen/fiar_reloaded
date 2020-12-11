@@ -10,10 +10,12 @@ defmodule FiarReloaded.Repo.Schemas.Board do
   @type row_number() :: 1..6
 
   @type t :: %__MODULE__{
-          :state => board()
+          :state => board(),
+          :number_of_columns => 7,
+          :number_of_rows => 6
         }
 
   @empty_board {[], [], [], [], [], [], []}
 
-  defstruct state: @empty_board
+  defstruct state: @empty_board, number_of_columns: 7, number_of_rows: 6
 end

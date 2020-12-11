@@ -99,7 +99,7 @@ function moveLeft() {
 }
 
 let transitionEndCallback = (e) => {
-  let className = e.target.classList[0];
+  let className = e.target.classList[1];
   circle.removeEventListener(transitionEvent, transitionEndCallback);
   circle.classList.remove(className);
   switch (className) {

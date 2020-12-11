@@ -46,33 +46,41 @@ main section {
 }
 
 main #game_title {
-    display: flex;
+  display: flex;
 }
 /* board */
 
 #circle.animate-right {
-    transform: translateX(100px);
-    transition: transform 0.1s;
+  transform: translateX(100px);
+  transition: transform 0.1s;
 }
 
 #circle.animate-left {
-    transform: translateX(-100px);
-    transition: transform 0.1s;
+  transform: translateX(-100px);
+  transition: transform 0.1s;
 }
-  
-b.r1 div#circle {
-    background: tomato;
-    border-radius: 50%;
-    width: 100%;
-    height: 100%;
+
+div .circle {
+  background: tomato;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+}
+
+.circle.p1 {
+  background: red;
+}
+
+.circle.p2 {
+  background: skyblue;
 }
 
 main section .grid b.c1 {
-    border-left: 1px solid black;
+  border-left: 1px solid black;
 }
 
-main section .grid b.r1{
-    border: none
+main section .grid b.r1 {
+  border: none;
 }
 
 main section .grid b {
@@ -89,6 +97,7 @@ main section .grid {
   grid-template-columns: repeat(7, 100px [col-start]);
   grid-template-rows: repeat(7, 100px);
   /* grid-gap: 0 0.5rem; */
+  /* grid-auto-flow: row; */
 }
 
 div#players {

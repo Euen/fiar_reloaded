@@ -1,0 +1,31 @@
+<div class="grid" phx-window-keyup="drop_chip" phx-key="ArrowDown" phx-target="<%= @myself %>">
+    <b class="r1 c1"></b>
+    <b class="r1 c2"></b>
+    <b class="r1 c3"></b>
+    <b class="r1 c4">
+        <div id ="circle" class="circle"></div>
+    </b>
+    <b class="r1 c5"></b>
+    <b class="r1 c6"></b>
+    <b class="r1 c7"></b>
+
+    <%= if is_nil(@board) do %>
+        <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
+        <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
+        <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
+        <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
+        <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
+        <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
+    <% else %>
+        <%= for i <- 0..@game.board.number_of_rows - 1, j <- 0..@game.board.number_of_columns - 1 do %>
+            <% column = Enum.at(@board, j) %>
+            <% elem = Enum.at(column, i) %>
+
+            <%= if elem == :empty do %>
+                <b></b>
+            <% else %>
+                <b><div class="circle p<%= elem %>"></div></b>
+            <% end %>
+        <% end %>
+    <% end %>
+</div>
