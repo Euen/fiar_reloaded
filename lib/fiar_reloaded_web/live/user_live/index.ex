@@ -33,6 +33,7 @@ defmodule FiarReloadedWeb.UserLive.Index do
       :ok,
       socket
       |> assign(:game, nil)
+      |> assign(:result, nil)
       |> assign(:board, nil)
       |> assign(:current_user, user)
       |> assign(:logged_users, %{})
@@ -84,6 +85,17 @@ defmodule FiarReloadedWeb.UserLive.Index do
   end
 
   @impl true
+  def handle_event("leave_game", _, socket) do
+    socket =
+      socket
+      |> assign(:board, nil)
+      |> assign(:result, nil)
+      |> assign(:game, nil)
+
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_info(%{event: "presence_diff", payload: diff}, socket) do
     {
       :noreply,
@@ -109,8 +121,11 @@ defmodule FiarReloadedWeb.UserLive.Index do
   def handle_info(
         %{
           event: "chip_dropped",
-          payload:
-            %Game{:player1 => %User{:username => p1}, :player2 => %User{:username => p2}} = game
+          payload: %{
+            :game =>
+              %Game{:player1 => %User{:username => p1}, :player2 => %User{:username => p2}} = game,
+            :result => result
+          }
         },
         socket
       )
@@ -118,6 +133,7 @@ defmodule FiarReloadedWeb.UserLive.Index do
     socket =
       socket
       |> assign(:game, game)
+      |> assign(:result, result)
       |> assign(:board, Tuple.to_list(game.board.state))
 
     {:noreply, socket}

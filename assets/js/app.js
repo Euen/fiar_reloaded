@@ -20,16 +20,67 @@ import { LiveSocket, DOM } from "phoenix_live_view";
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
+
+//   let liveSocket = new LiveSocket("/live", Socket, {
+//   params: { _csrf_token: csrfToken },
+//   metadata: {
+//     keyup: (e, el) => {
+//       return {
+//         key: e.key,
+//         column: circle.parentElement.classList[1]
+//       }
+//     }
+//   }
+// });
+
+// hooks.DropChip = {
+//   mounted() {
+//     window.addEventListener("ArrowDownEvent", (e) => {
+//       console.log("pepe");
+//       let class_names = circle.parentElement.classList
+//       this.pushEvent("drop_chip", { "column": class_names }, (reply, ref) =>
+//         // do the animation here having in count the reply
+//         console.log(reply)
+//       );
+//     });
+
+//     // window.addEventListener("keyup", (event) => {
+//     //   console.log("KEY up");
+//     //   if (event.key == "ArrowDown") {
+//     //     let class_names = circle.parentElement.classList
+//     //     this.pushEvent("drop_chip", {"column": class_names}, (reply, ref) =>
+//     //       // do the animation here having in count the reply
+//     //       console.log(reply)
+//     //     )
+//     //   }
+//     // });
+
+//     // this.handleEvent("phxEventToJS", (payload) => console.log("data received: " + payload));
+//   },
+// };
+
+let hooks = {};
+
+hooks.DropChip = {
+  beforeUpdate() {
+    console.log("dale que va");
+    circle.classList.add("animate-down-2rows");
+    await new Promise(r => setTimeout(r, 1000));
+    console.log(this.el);
+  },
+};
+
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
+  hooks: hooks,
   metadata: {
     keyup: (e, el) => {
       return {
         key: e.key,
-        column: circle.parentElement.classList[1]
-      }
-    }
-  }
+        column: circle.parentElement.classList[1],
+      };
+    },
+  },
 });
 
 // Show progress bar on live navigation and form submits
@@ -45,29 +96,10 @@ liveSocket.connect();
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
 
-////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////// chip_animations
 
-let whichTransitionEvent = () => {
-  let t,
-    el = document.createElement("fakeelement");
-
-  let transitions = {
-    transition: "transitionend",
-    OTransition: "oTransitionEnd",
-    MozTransition: "transitionend",
-    WebkitTransition: "webkitTransitionEnd",
-  };
-
-  for (t in transitions) {
-    if (el.style[t] !== undefined) {
-      return transitions[t];
-    }
-  }
-};
-
-let transitionEvent = whichTransitionEvent();
-let circle = document.getElementById("circle");
-
+// Functions to move the chip
+const arrowDownEvent = new Event("ArrowDownEvent");
 window.addEventListener("keyup", (event) => {
   switch (event.key) {
     case "ArrowRight":
@@ -98,6 +130,29 @@ function moveLeft() {
   }
 }
 
+// Create event listener to react when the css animation finish
+let whichTransitionEvent = () => {
+  let t,
+    el = document.createElement("fakeelement");
+
+  let transitions = {
+    transition: "transitionend",
+    OTransition: "oTransitionEnd",
+    MozTransition: "transitionend",
+    WebkitTransition: "webkitTransitionEnd",
+  };
+
+  for (t in transitions) {
+    if (el.style[t] !== undefined) {
+      return transitions[t];
+    }
+  }
+};
+
+let transitionEvent = whichTransitionEvent();
+let circle = document.getElementById("circle");
+
+// Callback called when the animation finish
 let transitionEndCallback = (e) => {
   let className = get_animate_class(e.target);
   circle.removeEventListener(transitionEvent, transitionEndCallback);
@@ -114,7 +169,7 @@ let transitionEndCallback = (e) => {
   }
 };
 
-function get_animate_class(element){
+function get_animate_class(element) {
   if (element.classList.contains("animate-right")) {
     return "animate-right";
   } else {

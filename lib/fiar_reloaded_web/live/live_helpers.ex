@@ -24,4 +24,10 @@ defmodule FiarReloadedWeb.LiveHelpers do
   def get_player_number(%{:player1 => %{username: username}}, %{:username => username}), do: 1
   def get_player_number(%{:player2 => %{username: username}}, %{:username => username}), do: 2
 
+  def get_result(%{:result => :next}, _), do: :next
+  def get_result(%{:result => :drawn}, _), do: :drawn
+  def get_result(game, current_user) do
+    if game.next_chip == get_player_number(game, current_user), do: :loose, else: :won
+  end
+
 end

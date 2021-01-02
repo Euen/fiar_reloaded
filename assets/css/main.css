@@ -60,6 +60,11 @@ main #game_title {
   transition: transform 0.1s;
 }
 
+#circle.animate-down-2rows {
+  transform: translateY(200px);
+  transition: transform 0.3s;
+}
+
 div .circle {
   background: tomato;
   border-radius: 50%;

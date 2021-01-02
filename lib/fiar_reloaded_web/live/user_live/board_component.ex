@@ -18,18 +18,26 @@ defmodule FiarReloadedWeb.UserLive.BoardComponent do
   def handle_event("drop_chip", _params, %{assigns: %{game: nil}} = socket),
     do: {:noreply, socket}
 
+  def handle_event("drop_chip", _params, %{assigns: %{result: result}} = socket)
+      when result in [:won, :drawn],
+      do: {:noreply, socket}
+
   @impl true
   def handle_event(
         "drop_chip",
         %{"column" => col_num},
         %{assigns: %{current_user: current_user, game: game}} = socket
       ) do
+    IO.inspect(col_num, label: "COLUMN")
 
     if FiarReloaded.is_user_turn(game, current_user) do
       col_num = String.at(col_num, 1)
-      {_result, game} = FiarReloaded.play(game, String.to_integer(col_num))
+      {result, game} = FiarReloaded.play(game, String.to_integer(col_num))
 
-      Phoenix.PubSub.broadcast(PubSub, @presence, %{event: "chip_dropped", payload: game})
+      Phoenix.PubSub.broadcast(PubSub, @presence, %{
+        event: "chip_dropped",
+        payload: %{:game => game, :result => result}
+      })
     end
 
     {:noreply, socket}
@@ -39,7 +47,12 @@ defmodule FiarReloadedWeb.UserLive.BoardComponent do
 
   defp fill_with_empty(board) do
     for c <- board do
-      empty_length = case 6 - length(c) do 0 -> []; l -> 1..l end
+      empty_length =
+        case 6 - length(c) do
+          0 -> []
+          l -> 1..l
+        end
+
       empty_slots = for _ <- empty_length, do: :empty
       empty_slots ++ c
     end
