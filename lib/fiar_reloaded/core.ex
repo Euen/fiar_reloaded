@@ -37,10 +37,12 @@ defmodule FiarReloaded.Core do
 
     case is_column_full?(column) do
       false ->
+        updated_column = [chip | column]
+
         updated_game =
-          [chip | column]
+          updated_column
           |> Boards.update_column(col_number, game.board)
-          |> Games.update_board(game)
+          |> Games.update_board(length(updated_column), col_number, game)
 
         {:ok, updated_game}
 

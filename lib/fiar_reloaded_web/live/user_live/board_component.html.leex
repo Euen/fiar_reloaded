@@ -14,21 +14,21 @@
     <b class="r1 c7"></b>
 
     <%= if is_nil(@board) do %>
-        <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
-        <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
-        <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
-        <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
-        <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
-        <b class="c1"></b> <b></b> <b></b> <b></b> <b></b> <b></b> <b></b>
+        <b id="11" class="c1"></b> <b id="12"></b> <b id="13"></b> <b id="14"></b> <b id="15"></b> <b id="16"></b> <b id="17"></b>
+        <b id="21" class="c1"></b> <b id="22"></b> <b id="23"></b> <b id="24"></b> <b id="25"></b> <b id="26"></b> <b id="27"></b>
+        <b id="31" class="c1"></b> <b id="32"></b> <b id="33"></b> <b id="34"></b> <b id="35"></b> <b id="36"></b> <b id="37"></b>
+        <b id="41" class="c1"></b> <b id="42"></b> <b id="43"></b> <b id="44"></b> <b id="45"></b> <b id="46"></b> <b id="47"></b>
+        <b id="51" class="c1"></b> <b id="52"></b> <b id="53"></b> <b id="54"></b> <b id="55"></b> <b id="56"></b> <b id="57"></b>
+        <b id="61" class="c1"></b> <b id="62"></b> <b id="63"></b> <b id="64"></b> <b id="65"></b> <b id="66"></b> <b id="67"></b>
     <% else %>
-        <%= for i <- 0..@game.board.number_of_rows - 1, j <- 0..@game.board.number_of_columns - 1 do %>
-            <% column = Enum.at(@board, j) %>
-            <% elem = Enum.at(column, i) %>
+        <%= for i <- 1..@game.board.number_of_rows, j <- 1..@game.board.number_of_columns do %>
+            <% column = Enum.at(@board, j - 1) %>
+            <% elem = Enum.at(column, i - 1) %>
 
             <%= if elem == :empty do %>
-                <b></b>
+                <b id="<%= "#{@game.board.number_of_rows+1-i}#{j}" %>"></b>
             <% else %>
-                <b><div class="circle p<%= elem %>"></div></b>
+                <b id="<%= "#{@game.board.number_of_rows+1-i}#{j}" %>"><div class="circle p<%= elem %>"></div></b>
             <% end %>
         <% end %>
     <% end %>

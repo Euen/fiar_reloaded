@@ -30,4 +30,6 @@ defmodule FiarReloadedWeb.LiveHelpers do
     if game.next_chip == get_player_number(game, current_user), do: :loose, else: :won
   end
 
+  # def get_class(nil), do: ""
+  # def get_class(class), do: class
 end

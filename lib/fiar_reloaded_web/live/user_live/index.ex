@@ -35,6 +35,7 @@ defmodule FiarReloadedWeb.UserLive.Index do
       |> assign(:game, nil)
       |> assign(:result, nil)
       |> assign(:board, nil)
+      # |> assign(:class, nil)
       |> assign(:current_user, user)
       |> assign(:logged_users, %{})
       |> assign(:users, list_users())
@@ -136,7 +137,11 @@ defmodule FiarReloadedWeb.UserLive.Index do
       |> assign(:result, result)
       |> assign(:board, Tuple.to_list(game.board.state))
 
-    {:noreply, socket}
+    {:noreply,
+     push_event(socket, "chipDropped", %{
+       row_num: game.last_row_played,
+       col_num: game.last_col_played
+     })}
   end
 
   @impl true

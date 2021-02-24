@@ -60,8 +60,33 @@ main #game_title {
   transition: transform 0.1s;
 }
 
+#circle.animate-down-1rows {
+  transform: translateY(100px);
+  transition: transform 0.3s;
+}
+
 #circle.animate-down-2rows {
   transform: translateY(200px);
+  transition: transform 0.3s;
+}
+
+#circle.animate-down-3rows {
+  transform: translateY(300px);
+  transition: transform 0.3s;
+}
+
+#circle.animate-down-4rows {
+  transform: translateY(400px);
+  transition: transform 0.3s;
+}
+
+#circle.animate-down-5rows {
+  transform: translateY(500px);
+  transition: transform 0.3s;
+}
+
+#circle.animate-down-6rows {
+  transform: translateY(600px);
   transition: transform 0.3s;
 }
 
@@ -94,15 +119,12 @@ main section .grid b {
 
   background: #fff;
   padding: 1.5rem;
-  /* border-radius: 0.5rem; */
 }
 
 main section .grid {
   display: grid;
   grid-template-columns: repeat(7, 100px [col-start]);
   grid-template-rows: repeat(7, 100px);
-  /* grid-gap: 0 0.5rem; */
-  /* grid-auto-flow: row; */
 }
 
 div#players {
