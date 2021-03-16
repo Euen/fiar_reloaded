@@ -4,6 +4,7 @@ defmodule FiarReloaded.Repo.Schemas.User do
   alias FiarReloaded.Auth.Hash
 
   @type t() :: %__MODULE__{
+    :id => pos_integer(),
     :username => String.t()
   }
 

@@ -1,9 +1,6 @@
 defmodule FiarReloadedWeb.UserLive.BoardComponent do
   use FiarReloadedWeb, :live_component
 
-  alias FiarReloaded.PubSub
-  @presence "fiar_reloaded:presence"
-
   @impl true
   def update(%{board: board} = assigns, socket) do
     html_board = fill_with_empty(board)
@@ -26,21 +23,21 @@ defmodule FiarReloadedWeb.UserLive.BoardComponent do
   def handle_event(
         "drop_chip",
         %{"column" => col_num},
-        %{assigns: %{current_user: current_user, game: game}} = socket
+        %{assigns: %{current_user: current_user, game_id: game_id}} = socket
       ) do
-    IO.inspect(col_num, label: "COLUMN")
+    socket = clear_flash(socket)
 
-    if FiarReloaded.is_user_turn(game, current_user) do
-      col_num = String.at(col_num, 1)
-      {result, game} = FiarReloaded.play(game, String.to_integer(col_num))
+    socket =
+      with true <- FiarReloaded.is_user_turn(game_id, current_user),
+           col_num = String.at(col_num, 1),
+           :ok <- FiarReloaded.play(game_id, String.to_integer(col_num)) do
+        socket
+      else
+        false -> put_flash(socket, :error, "Not your turn")
+        {:error, reason} -> put_flash(socket, :error, "Error: #{reason}")
+      end
 
-      Phoenix.PubSub.broadcast(PubSub, @presence, %{
-        event: "chip_dropped",
-        payload: %{:game => game, :result => result}
-      })
-    end
-
-    {:noreply, socket}
+    {:noreply, push_patch(socket, to: "/")}
   end
 
   defp fill_with_empty(nil), do: nil

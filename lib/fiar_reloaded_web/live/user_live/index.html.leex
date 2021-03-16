@@ -22,7 +22,7 @@
 <% end %>
 
 <section>
-  <%= live_component @socket, FiarReloadedWeb.UserLive.BoardComponent, id: :board, game: @game, current_user: @current_user, board: @board, result: @result%>
+  <%= live_component @socket, FiarReloadedWeb.UserLive.BoardComponent, id: :board, game: @game, current_user: @current_user, board: @board, result: @result, game_id: @game_id%>
 
   <div id="players">
     <h2>Users online:</h2>
@@ -32,8 +32,17 @@
           <%= if !is_nil(@current_user) and user_id == Integer.to_string(@current_user.id) do %>
             <li><%= user.username %> (me)</li>
           <% else %>
-            <li><%= user.username %></li>
-            <li><button phx-click="start_game" phx-value-p2_name="<%= user.username %>">start game</button></li>
+            <%= if @game do %>
+              <%= if in_game_with_user?(user.username, @game) do %>
+                <li><%= user.username %></li>
+                <li><button phx-click="leave_game">leave game</button></li>
+              <% else %>
+                <li><%= user.username %></li>
+              <% end %>
+            <% else %>
+              <li><%= user.username %></li>
+              <li><button phx-click="start_game" phx-value-p2_name="<%= user.username %>">start game</button></li>
+            <% end %>
           <% end %>
         <% end %>
       </ul>

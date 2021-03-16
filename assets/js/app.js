@@ -59,51 +59,8 @@ let csrfToken = document
 //   },
 // };
 
-let hooks = {};
-let pepe = {};
-
-var row_num;
-var col_num;
-
-hooks.DropChip = {
-  mounted() {
-    this.handleEvent("chipDropped", (payload) => {
-      row_num = payload.row_num;
-      col_num = payload.col_num;
-      console.log(payload);
-
-      // get position coordenates
-      // set this coordenates in the element
-
-
-      circle.addEventListener(transitionEvent, transitionEndCallback);
-
-      // apply transition class
-      drop_chip_animation(row_num);
-
-      // make dissapear the chip in the board based on the position
-      let position = document.getElementById(row_num + "" + col_num);
-      console.log(position);
-      position.childNodes[0].style.display = "none";
-    });
-  },
-  beforeUpdate() {
-    console.log("dale que va");
-    console.log(this.el);
-    // circle.classList.add("animate-down-2rows");
-    // setTimeout(console.log(this.el), 5000);
-
-    // animate using css
-    // -- Take animation slots from this.el to know wich class to apply
-    // show hidden chip (not now)
-    // remove animation chip
-    // create new chip on selection row
-  },
-};
-
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
-  hooks: hooks,
   metadata: {
     keyup: (e, el) => {
       return {
@@ -133,13 +90,6 @@ liveSocket.connect();
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
 
-/////////////////////////////////// chip_animations
-
-function drop_chip_animation(row_num) {
-  circle.classList.add("animate-down-" + (7 - row_num) + "rows");
-}
-
-///////////////////
 // Functions to move the chip
 const arrowDownEvent = new Event("ArrowDownEvent");
 window.addEventListener("keyup", (event) => {
@@ -208,10 +158,6 @@ let transitionEndCallback = (e) => {
       e.target.parentElement.previousElementSibling.appendChild(circle);
       break;
     default:
-      console.log(row_num);
-      console.log(col_num);
-      let position = document.getElementById(row_num + "" + col_num);
-      position.childNodes[0].style.display = "";
       break;
   }
 };
@@ -223,5 +169,5 @@ function get_animate_class(element) {
   if (element.classList.contains("animate-left")) {
     return "animate-left";
   }
-  return element.classList[2];
+  return false;
 }
