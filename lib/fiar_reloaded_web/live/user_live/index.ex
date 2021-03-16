@@ -2,10 +2,10 @@ defmodule FiarReloadedWeb.UserLive.Index do
   use FiarReloadedWeb, :live_view
 
   alias FiarReloaded.Repo.Users
-  alias FiarReloaded.Repo.Schemas.User
+  alias FiarReloaded.Repo.Schemas.{User}
 
   alias FiarReloadedWeb.Presence
-  alias FiarReloaded.PubSub
+  alias FiarReloaded.{PubSub, GamesRegistry}
 
   @presence "fiar_reloaded:presence"
 
@@ -19,10 +19,13 @@ defmodule FiarReloadedWeb.UserLive.Index do
           session["user_id"]
           |> Users.get_user!()
 
+        Phoenix.PubSub.subscribe(PubSub, "user_topic:#{user.id}")
+
         {:ok, _} =
           Presence.track(self(), @presence, user.id, %{
             username: user.username
           })
+
         user
       else
         nil
@@ -31,6 +34,11 @@ defmodule FiarReloadedWeb.UserLive.Index do
     {
       :ok,
       socket
+      |> assign(:game, nil)
+      |> assign(:result, nil)
+      |> assign(:board, nil)
+      |> assign(:game_id, nil)
+      # |> assign(:class, nil)
       |> assign(:current_user, user)
       |> assign(:logged_users, %{})
       |> assign(:users, list_users())
@@ -70,6 +78,22 @@ defmodule FiarReloadedWeb.UserLive.Index do
   end
 
   @impl true
+  def handle_event("start_game", %{"p2_name" => p2_name}, socket) do
+    p1_name = socket.assigns.current_user.username
+    # Starts a supervised process in charge of hanlde the state of the game
+    {:ok, _} = FiarReloaded.start_game(p1_name, p2_name)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("leave_game", _, socket) do
+    :ok = FiarReloaded.leave_game(socket.assigns.game_id)
+
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_info(%{event: "presence_diff", payload: diff}, socket) do
     {
       :noreply,
@@ -77,6 +101,47 @@ defmodule FiarReloadedWeb.UserLive.Index do
       |> handle_leaves(diff.leaves)
       |> handle_joins(diff.joins)
     }
+  end
+
+  @impl true
+  def handle_info(
+        %{
+          event: "game_started",
+          payload: %{:game => game, :game_topic => game_topic, :game_id => game_id}
+        },
+        socket
+      ) do
+    Phoenix.PubSub.subscribe(PubSub, game_topic)
+
+    socket =
+      socket
+      |> assign(:game, game)
+      |> assign(:game_id, game_id)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info(%{event: "chip_dropped", payload: %{:game => game, :result => result}}, socket) do
+    socket =
+      socket
+      |> assign(:game, game)
+      |> assign(:result, result)
+      |> assign(:board, Tuple.to_list(game.board.state))
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info(%{event: "game_finished"}, socket) do
+    socket =
+      socket
+      |> assign(:game, nil)
+      |> assign(:result, nil)
+      |> assign(:board, nil)
+      |> assign(:game_id, nil)
+
+    {:noreply, socket}
   end
 
   defp handle_joins(socket, joins) do

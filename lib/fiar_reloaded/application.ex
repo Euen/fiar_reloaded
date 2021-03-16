@@ -3,6 +3,7 @@ defmodule FiarReloaded.Application do
   # for more information on OTP Applications
   @moduledoc false
 
+  alias FiarReloaded.{GameSupervisor, GamesRegistry}
   use Application
 
   def start(_type, _args) do
@@ -13,6 +14,10 @@ defmodule FiarReloaded.Application do
       FiarReloadedWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: FiarReloaded.PubSub},
+      # Start the Game dynamic supervisor
+      {GameSupervisor, [name: GameSupervisor]},
+      # Start the games process registry
+      {Registry, keys: :unique, name: GamesRegistry},
       # Start Presence
       FiarReloadedWeb.Presence,
       # Start the Endpoint (http/https)

@@ -1,0 +1,141 @@
+.container {
+  margin: 0 auto;
+  max-width: 115rem;
+  padding: 0 2rem;
+  position: relative;
+  width: 100%;
+}
+select {
+  width: auto;
+}
+
+/* Headers */
+header {
+  width: 100%;
+  background: #fdfdfd;
+  border-bottom: 1px solid #eaeaea;
+  margin-bottom: 2rem;
+}
+header section {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+header nav ul,
+header nav li {
+  margin: 0;
+  padding: 0;
+  display: block;
+  text-align: right;
+  white-space: nowrap;
+}
+header nav ul {
+  margin: 1rem;
+  margin-top: 0;
+}
+header nav a {
+  display: block;
+}
+
+/* Main */
+
+main section {
+  display: flex;
+  justify-content: space-between;
+}
+
+main #game_title {
+  display: flex;
+}
+/* board */
+
+#circle.animate-right {
+  transform: translateX(100px);
+  transition: transform 0.1s;
+}
+
+#circle.animate-left {
+  transform: translateX(-100px);
+  transition: transform 0.1s;
+}
+
+#circle.animate-down-1rows {
+  transform: translateY(100px);
+  transition: transform 0.3s;
+}
+
+#circle.animate-down-2rows {
+  transform: translateY(200px);
+  transition: transform 0.3s;
+}
+
+#circle.animate-down-3rows {
+  transform: translateY(300px);
+  transition: transform 0.3s;
+}
+
+#circle.animate-down-4rows {
+  transform: translateY(400px);
+  transition: transform 0.3s;
+}
+
+#circle.animate-down-5rows {
+  transform: translateY(500px);
+  transition: transform 0.3s;
+}
+
+#circle.animate-down-6rows {
+  transform: translateY(600px);
+  transition: transform 0.3s;
+}
+
+div .circle {
+  background: tomato;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+}
+
+.circle.p1 {
+  background: red;
+}
+
+.circle.p2 {
+  background: skyblue;
+}
+
+main section .grid b.c1 {
+  border-left: 1px solid black;
+}
+
+main section .grid b.r1 {
+  border: none;
+}
+
+main section .grid b {
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+
+  background: #fff;
+  padding: 1.5rem;
+}
+
+main section .grid {
+  display: grid;
+  grid-template-columns: repeat(7, 100px [col-start]);
+  grid-template-rows: repeat(7, 100px);
+}
+
+div#players {
+  width: 250px;
+}
+
+div#players div {
+  padding: 2rem;
+  border: solid 1px;
+}
+
+div#players ul {
+  list-style: none;
+}

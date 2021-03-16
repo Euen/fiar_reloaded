@@ -1,5 +1,3 @@
-<h1>Listing Users</h1>
-
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal @socket, FiarReloadedWeb.UserLive.FormComponent,
     id: @user.id || :new,
@@ -9,39 +7,46 @@
     return_to: Routes.session_path(@socket, :new) %>
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Username</th>
-      <th>Password</th>
+<%= if @current_user do %>
+  <h1><%= @current_user.username %></h1>
+<% end %>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="users">
-    <%= for user <- @users do %>
-      <tr id="user-<%= user.id %>">
-        <td><%= user.username %></td>
-        <td><%= user.password %></td>
-
-        <td>
-          <span><%= live_redirect "Show", to: Routes.user_show_path(@socket, :show, user) %></span>
-          <span><%= live_patch "Edit", to: Routes.user_index_path(@socket, :edit, user) %></span>
-        </td>
-      </tr>
+<%= if @game do %>
+  <div id="game_title">
+    <h3><%= @game.player1.username %></h3> vs <h3><%= @game.player2.username %></h3>
+    <%= if @result not in [nil, :next] do %>
+      <h3><%= get_result(@game, @current_user) %></h3>
+      <button phx-click="leave_game">leave game</button>
     <% end %>
-  </tbody>
-</table>
+  </div>
+<% end %>
 
+<section>
+  <%= live_component @socket, FiarReloadedWeb.UserLive.BoardComponent, id: :board, game: @game, current_user: @current_user, board: @board, result: @result, game_id: @game_id%>
+
+  <div id="players">
+    <h2>Users online:</h2>
     <div>
-      <h2>Users online:</h2>
-      <%= for {user_id, user} <- @logged_users do %>
-        <%= if !is_nil(@current_user) and user_id == Integer.to_string(@current_user.id) do %>
-          <span><%= user.username %> (me)</span>
-        <% else %>
-          <span><%= user.username %></span>
+      <ul>
+        <%= for {user_id, user} <- @logged_users do %>
+          <%= if !is_nil(@current_user) and user_id == Integer.to_string(@current_user.id) do %>
+            <li><%= user.username %> (me)</li>
+          <% else %>
+            <%= if @game do %>
+              <%= if in_game_with_user?(user.username, @game) do %>
+                <li><%= user.username %></li>
+                <li><button phx-click="leave_game">leave game</button></li>
+              <% else %>
+                <li><%= user.username %></li>
+              <% end %>
+            <% else %>
+              <li><%= user.username %></li>
+              <li><button phx-click="start_game" phx-value-p2_name="<%= user.username %>">start game</button></li>
+            <% end %>
+          <% end %>
         <% end %>
-      <% end %>
+      </ul>
     </div>
+  </div>
 
-<span><%= live_patch "New User", to: Routes.user_index_path(@socket, :new) %></span>
+</section>

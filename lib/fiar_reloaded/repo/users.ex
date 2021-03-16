@@ -42,7 +42,8 @@ defmodule FiarReloaded.Repo.Users do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(id) when is_integer(id), do: Repo.get!(User, id)
+  def get_user!(username), do: Repo.get_by!(User, username: username)
 
   @doc """
   Creates a user.

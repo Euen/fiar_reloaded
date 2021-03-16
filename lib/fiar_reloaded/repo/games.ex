@@ -5,16 +5,16 @@ defmodule FiarReloaded.Repo.Games do
   @spec new(String.t(), String.t()) :: Game.t()
   def new(player1_name, player2_name) do
     %Game{
-      :player1 => Users.new(player1_name),
-      :player2 => Users.new(player2_name),
+      :player1 => Users.get_user!(player1_name),
+      :player2 => Users.get_user!(player2_name),
       :board => Boards.empty_board(),
       :next_chip => 1
     }
   end
 
-  @spec update_board(Board.t(), Game.t()) :: Game.t()
-  def update_board(board, game) do
-    %{game | board: board}
+  @spec update_board(Board.t(), integer(), integer(), Game.t()) :: Game.t()
+  def update_board(board, last_row_played, last_col_played, game) do
+    %{game | board: board, last_row_played: last_row_played, last_col_played: last_col_played}
     |> update_next_chip()
   end
 

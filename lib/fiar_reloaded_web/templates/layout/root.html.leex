@@ -7,11 +7,11 @@
     <%= csrf_meta_tag() %>
     <%= live_title_tag assigns[:page_title] || "FiarReloaded", suffix: " · Phoenix Framework" %>
     <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
-    <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
     <header>
       <section class="container">
+        <h1>Fiar</h1>
         <nav role="navigation">
           <ul>
             <%= if logged_in?(@conn) do %>
@@ -21,9 +21,9 @@
             <% end %>
           </ul>
         </nav>
-        <h1><%= if current_user(@conn), do: current_user(@conn).username %></h1>
       </section>
     </header>
     <%= @inner_content %>
+    <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

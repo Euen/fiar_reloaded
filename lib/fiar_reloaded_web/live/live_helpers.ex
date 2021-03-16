@@ -20,4 +20,19 @@ defmodule FiarReloadedWeb.LiveHelpers do
     modal_opts = [id: :modal, return_to: path, component: component, opts: opts]
     live_component(socket, FiarReloadedWeb.ModalComponent, modal_opts)
   end
+
+  def get_player_number(%{:player1 => %{username: username}}, %{:username => username}), do: 1
+  def get_player_number(%{:player2 => %{username: username}}, %{:username => username}), do: 2
+
+  def get_result(%{:result => :next}, _), do: :next
+  def get_result(%{:result => :drawn}, _), do: :drawn
+  def get_result(game, current_user) do
+    if game.next_chip == get_player_number(game, current_user), do: :loose, else: :won
+  end
+
+  def in_game_with_user?(username, %{:player1 => %{:username => username}}), do: true
+  def in_game_with_user?(username, %{:player2 => %{:username => username}}), do: true
+  def in_game_with_user?(_, _), do: false
+  # def get_class(nil), do: ""
+  # def get_class(class), do: class
 end

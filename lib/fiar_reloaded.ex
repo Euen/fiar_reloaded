@@ -1,12 +1,14 @@
 defmodule FiarReloaded do
-  @moduledoc """
-  FiarReloaded keeps the contexts that define your domain
-  and business logic.
+  alias FiarReloaded.{GameSupervisor, GameServer}
+  def start_game(p1_name, p2_name) do
+    GameSupervisor.start_child(p1_name, p2_name)
+  end
 
-  Contexts are also responsible for managing your data, regardless
-  if it comes from the database, an external API or others.
-  """
-  defdelegate start_game(player1_name, player2_name), to: FiarReloaded.Core
+  def leave_game(game_id) do
+    GameServer.leave_game(game_id)
+  end
 
-  defdelegate play(game, column), to: FiarReloaded.Core
+  defdelegate play(game_id, col_number), to: FiarReloaded.GameServer
+
+  defdelegate is_user_turn(game_id, user), to: FiarReloaded.GameServer
 end
