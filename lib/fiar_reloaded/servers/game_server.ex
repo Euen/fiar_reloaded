@@ -56,23 +56,23 @@ defmodule FiarReloaded.GameServer do
   end
 
   # Callbacks
-  def init([p1_name, p2_name]) do
-    game = Core.start_game(p1_name, p2_name)
-    {:ok, %__MODULE__{:game => game}, {:continue, :notify_new_game_to_players}}
+  def init(players) do
+    {:ok, players, {:continue, :notify_new_game_to_players}}
   end
 
-  def handle_continue(:notify_new_game_to_players, %{:game => game} = state) do
+  def handle_continue(:notify_new_game_to_players, [p1_name, p2_name]) do
+    game = Core.start_game(p1_name, p2_name)
     game_topic = "game_topic:#{rand_str()}"
     [game_id] = Registry.keys(GamesRegistry, self())
+    # TODO: prepare the payload with just the needed data
     payload = %{game: game, game_topic: game_topic, game_id: game_id}
 
     for player_id <- [game.player1.id, game.player2.id] do
-      IO.inspect("user_topic:#{player_id}", label: "USER TOPIC")
       player_topic = "user_topic:#{player_id}"
       Phoenix.PubSub.broadcast(PubSub, player_topic, %{event: "game_started", payload: payload})
     end
 
-    {:noreply, %{state | game_topic: game_topic}}
+    {:noreply, %__MODULE__{:game => game, game_topic: game_topic}}
   end
 
   def handle_call({:play, col_number}, _from, state) do
@@ -81,9 +81,10 @@ defmodule FiarReloaded.GameServer do
         {:reply, {:error, reason}, state}
 
       {result, game} ->
+        player_number = Core.get_other_player_number(game.next_chip)
         Phoenix.PubSub.broadcast(PubSub, state.game_topic, %{
           event: "chip_dropped",
-          payload: %{:game => game, :result => result}
+          payload: %{:game => game, :result => result, player_number: player_number}
         })
 
         {:reply, :ok, %{state | game: game}}
