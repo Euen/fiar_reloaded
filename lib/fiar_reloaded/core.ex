@@ -26,6 +26,9 @@ defmodule FiarReloaded.Core do
   defp get_player_by_turn(1), do: :player1
   defp get_player_by_turn(2), do: :player2
 
+  def get_other_player_number(1), do: 2
+  def get_other_player_number(2), do: 1
+
   @spec validate_col_number(integer()) :: :ok | {:error, :invalid_column}
   defp validate_col_number(col_number) when col_number in 1..7, do: :ok
   defp validate_col_number(_), do: {:error, :invalid_column}

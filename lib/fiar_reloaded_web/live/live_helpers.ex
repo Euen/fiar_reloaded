@@ -21,8 +21,12 @@ defmodule FiarReloadedWeb.LiveHelpers do
     live_component(socket, FiarReloadedWeb.ModalComponent, modal_opts)
   end
 
+  def get_player_class(nil), do: ""
+  def get_player_class(player_number), do: "p#{player_number}"
+
   def get_player_number(%{:player1 => %{username: username}}, %{:username => username}), do: 1
   def get_player_number(%{:player2 => %{username: username}}, %{:username => username}), do: 2
+  def get_player_number(nil, _), do: nil
 
   def get_result(%{:result => :next}, _), do: :next
   def get_result(%{:result => :drawn}, _), do: :drawn

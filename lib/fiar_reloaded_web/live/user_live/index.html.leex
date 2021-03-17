@@ -11,10 +11,10 @@
   <h1><%= @current_user.username %></h1>
 <% end %>
 
-<%= if @game do %>
+<%= if assigns[:game] do %>
   <div id="game_title">
     <h3><%= @game.player1.username %></h3> vs <h3><%= @game.player2.username %></h3>
-    <%= if @result not in [nil, :next] do %>
+    <%= if assigns[:result] not in [nil, :next] do %>
       <h3><%= get_result(@game, @current_user) %></h3>
       <button phx-click="leave_game">leave game</button>
     <% end %>
@@ -22,7 +22,15 @@
 <% end %>
 
 <section>
-  <%= live_component @socket, FiarReloadedWeb.UserLive.BoardComponent, id: :board, game: @game, current_user: @current_user, board: @board, result: @result, game_id: @game_id%>
+  <%= live_component @socket, FiarReloadedWeb.UserLive.BoardComponent,
+      id: :board,
+      game: assigns[:game],
+      player_number: assigns[:player_number],
+      last_row: assigns[:last_row],
+      last_col: assigns[:last_col],
+      current_user: @current_user,
+      result: assigns[:result],
+      game_id: assigns[:game_id] %>
 
   <div id="players">
     <h2>Users online:</h2>
@@ -32,7 +40,7 @@
           <%= if !is_nil(@current_user) and user_id == Integer.to_string(@current_user.id) do %>
             <li><%= user.username %> (me)</li>
           <% else %>
-            <%= if @game do %>
+            <%= if assigns[:game] do %>
               <%= if in_game_with_user?(user.username, @game) do %>
                 <li><%= user.username %></li>
                 <li><button phx-click="leave_game">leave game</button></li>

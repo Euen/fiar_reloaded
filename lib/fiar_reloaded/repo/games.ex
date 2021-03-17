@@ -1,14 +1,12 @@
 defmodule FiarReloaded.Repo.Games do
-  alias FiarReloaded.Repo.{Users, Boards}
+  alias FiarReloaded.Repo.Users
   alias FiarReloaded.Repo.Schemas.{Board, Game}
 
   @spec new(String.t(), String.t()) :: Game.t()
   def new(player1_name, player2_name) do
     %Game{
       :player1 => Users.get_user!(player1_name),
-      :player2 => Users.get_user!(player2_name),
-      :board => Boards.empty_board(),
-      :next_chip => 1
+      :player2 => Users.get_user!(player2_name)
     }
   end
 

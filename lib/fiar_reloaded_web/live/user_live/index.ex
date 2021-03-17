@@ -5,7 +5,7 @@ defmodule FiarReloadedWeb.UserLive.Index do
   alias FiarReloaded.Repo.Schemas.{User}
 
   alias FiarReloadedWeb.Presence
-  alias FiarReloaded.{PubSub, GamesRegistry}
+  alias FiarReloaded.PubSub
 
   @presence "fiar_reloaded:presence"
 
@@ -34,11 +34,6 @@ defmodule FiarReloadedWeb.UserLive.Index do
     {
       :ok,
       socket
-      |> assign(:game, nil)
-      |> assign(:result, nil)
-      |> assign(:board, nil)
-      |> assign(:game_id, nil)
-      # |> assign(:class, nil)
       |> assign(:current_user, user)
       |> assign(:logged_users, %{})
       |> assign(:users, list_users())
@@ -122,12 +117,17 @@ defmodule FiarReloadedWeb.UserLive.Index do
   end
 
   @impl true
-  def handle_info(%{event: "chip_dropped", payload: %{:game => game, :result => result}}, socket) do
+  def handle_info(%{event: "chip_dropped", payload: %{:game => game, :result => result, :player_number => player_number}}, socket) do
+    last_row = game.last_row_played
+    last_col = game.last_col_played
+
     socket =
       socket
       |> assign(:game, game)
       |> assign(:result, result)
-      |> assign(:board, Tuple.to_list(game.board.state))
+      |> assign(:last_row, last_row)
+      |> assign(:last_col, last_col)
+      |> assign(:player_number, player_number)
 
     {:noreply, socket}
   end
@@ -136,12 +136,21 @@ defmodule FiarReloadedWeb.UserLive.Index do
   def handle_info(%{event: "game_finished"}, socket) do
     socket =
       socket
-      |> assign(:game, nil)
-      |> assign(:result, nil)
-      |> assign(:board, nil)
-      |> assign(:game_id, nil)
+      |> delete_from_assign(:game)
+      |> delete_from_assign(:last_row)
+      |> delete_from_assign(:last_col)
+      |> delete_from_assign(:result)
+      |> delete_from_assign(:game_id)
 
     {:noreply, socket}
+  end
+
+  defp delete_from_assign(socket, key) do
+    %{
+      socket
+      | assigns: Map.delete(socket.assigns, key),
+        changed: Map.put_new(socket.changed, key, true)
+    }
   end
 
   defp handle_joins(socket, joins) do

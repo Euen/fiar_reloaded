@@ -2,16 +2,6 @@ defmodule FiarReloadedWeb.UserLive.BoardComponent do
   use FiarReloadedWeb, :live_component
 
   @impl true
-  def update(%{board: board} = assigns, socket) do
-    html_board = fill_with_empty(board)
-
-    {:ok,
-     socket
-     |> assign(assigns)
-     |> assign(:board, html_board)}
-  end
-
-  @impl true
   def handle_event("drop_chip", _params, %{assigns: %{game: nil}} = socket),
     do: {:noreply, socket}
 
@@ -40,18 +30,4 @@ defmodule FiarReloadedWeb.UserLive.BoardComponent do
     {:noreply, push_patch(socket, to: "/")}
   end
 
-  defp fill_with_empty(nil), do: nil
-
-  defp fill_with_empty(board) do
-    for c <- board do
-      empty_length =
-        case 6 - length(c) do
-          0 -> []
-          l -> 1..l
-        end
-
-      empty_slots = for _ <- empty_length, do: :empty
-      empty_slots ++ c
-    end
-  end
 end

@@ -16,50 +16,17 @@ import "phoenix_html";
 import { Socket } from "phoenix";
 import NProgress from "nprogress";
 import { LiveSocket, DOM } from "phoenix_live_view";
+import { BoardHook } from "./board_hook"
 
+let Hooks = {
+  Board: BoardHook
+}
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
 
-//   let liveSocket = new LiveSocket("/live", Socket, {
-//   params: { _csrf_token: csrfToken },
-//   metadata: {
-//     keyup: (e, el) => {
-//       return {
-//         key: e.key,
-//         column: circle.parentElement.classList[1]
-//       }
-//     }
-//   }
-// });
-
-// hooks.DropChip = {
-//   mounted() {
-//     window.addEventListener("ArrowDownEvent", (e) => {
-//       console.log("pepe");
-//       let class_names = circle.parentElement.classList
-//       this.pushEvent("drop_chip", { "column": class_names }, (reply, ref) =>
-//         // do the animation here having in count the reply
-//         console.log(reply)
-//       );
-//     });
-
-//     // window.addEventListener("keyup", (event) => {
-//     //   console.log("KEY up");
-//     //   if (event.key == "ArrowDown") {
-//     //     let class_names = circle.parentElement.classList
-//     //     this.pushEvent("drop_chip", {"column": class_names}, (reply, ref) =>
-//     //       // do the animation here having in count the reply
-//     //       console.log(reply)
-//     //     )
-//     //   }
-//     // });
-
-//     // this.handleEvent("phxEventToJS", (payload) => console.log("data received: " + payload));
-//   },
-// };
-
 let liveSocket = new LiveSocket("/live", Socket, {
+  hooks: Hooks,
   params: { _csrf_token: csrfToken },
   metadata: {
     keyup: (e, el) => {
@@ -68,13 +35,7 @@ let liveSocket = new LiveSocket("/live", Socket, {
         column: circle.parentElement.classList[1],
       };
     },
-  },
-  // dom: {
-  //   onBeforeElUpdated(from, to) {
-  //     console.log(from);
-  //     console.log(to);
-  //   },
-  // },
+  }
 });
 
 // Show progress bar on live navigation and form submits

@@ -1,14 +1,12 @@
 defmodule FiarReloaded.Test.BoardHelper do
   alias FiarReloaded.Core
-  alias FiarReloaded.Repo.Games
+  alias FiarReloaded.Repo.{Users, Games}
   alias FiarReloaded.Repo.Schemas.{Game, Board}
-
-  @new_game Games.new("p1", "p2")
 
   @spec almost_filled_board() :: Game.t()
   def almost_filled_board() do
     # fill the board exept for the column 6
-    Enum.reduce([1, 4, 2, 5], @new_game, &fill_column/2)
+    Enum.reduce([1, 4, 2, 5], new_game(), &fill_column/2)
     |> drop_chips(5, 6)
     |> drop_chips(6, 7)
     |> drop_chips(6, 3)
@@ -26,12 +24,16 @@ defmodule FiarReloaded.Test.BoardHelper do
   end
 
   @spec drop_chips(Game.t(), [Board.col_number()]) :: Game.t()
-  def drop_chips(game \\ @new_game, col_numbers)
-
   def drop_chips(game, []), do: game
 
   def drop_chips(game, [col_number | tail]) do
     {:next, game} = Core.play(game, col_number)
     drop_chips(game, tail)
+  end
+
+  def new_game() do
+    p1 = Users.create_user(%{username: "p1", password: "password"})
+    p2 = Users.create_user(%{username: "p2", password: "password"})
+    Games.new(p1.username, p2.username)
   end
 end
