@@ -13,7 +13,7 @@
 
 <%= if assigns[:game] do %>
   <div id="game_title">
-    <h3><%= @game.player1.username %></h3> vs <h3><%= @game.player2.username %></h3>
+    <h3><%= @game.player1.username %> </h3> vs <h3> <%= @game.player2.username %></h3>
     <%= if assigns[:result] not in [nil, :next] do %>
       <h3><%= get_result(@game, @current_user) %></h3>
       <button phx-click="leave_game">leave game</button>
@@ -37,19 +37,23 @@
     <div>
       <ul>
         <%= for {user_id, user} <- @logged_users do %>
-          <%= if !is_nil(@current_user) and user_id == Integer.to_string(@current_user.id) do %>
-            <li><%= user.username %> (me)</li>
-          <% else %>
-            <%= if assigns[:game] do %>
-              <%= if in_game_with_user?(user.username, @game) do %>
-                <li><%= user.username %></li>
-                <li><button phx-click="leave_game">leave game</button></li>
-              <% else %>
-                <li><%= user.username %></li>
-              <% end %>
+          <%= if !is_nil(@current_user) and @current_user.username in @players_in_game do %>
+            <%= if user_id == Integer.to_string(@current_user.id) do %>
+              <li><%= user.username %> (me)</li>
+              <li><button phx-click="leave_game">leave game</button></li>
             <% else %>
               <li><%= user.username %></li>
-              <li><button phx-click="start_game" phx-value-p2_name="<%= user.username %>">start game</button></li>
+            <% end %>
+          <% else %>
+            <%= if !is_nil(@current_user) and user_id == Integer.to_string(@current_user.id) do %>
+              <li><%= user.username %> (me)</li>
+            <% else %>
+              <%= if user.username in @players_in_game do %>
+                <li><%= user.username %></li>
+              <% else %>
+                <li><%= user.username %></li>
+                <li><button phx-click="start_game" phx-value-p2_name="<%= user.username %>">start game</button></li>
+              <% end %>
             <% end %>
           <% end %>
         <% end %>

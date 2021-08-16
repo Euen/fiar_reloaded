@@ -22,8 +22,6 @@ defmodule FiarReloaded.Application do
       FiarReloadedWeb.Presence,
       # Start the Endpoint (http/https)
       FiarReloadedWeb.Endpoint
-      # Start a worker by calling: FiarReloaded.Worker.start_link(arg)
-      # {FiarReloaded.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
