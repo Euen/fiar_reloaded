@@ -6,6 +6,7 @@ defmodule FiarReloadedWeb.UserLive.Index do
 
   alias FiarReloadedWeb.Presence
   alias FiarReloaded.{PubSub, GameSupervisor}
+  alias FiarReloadedWeb.Router.Helpers, as: Routes
 
   @presence "fiar_reloaded:presence"
 
@@ -77,11 +78,15 @@ defmodule FiarReloadedWeb.UserLive.Index do
 
   @impl true
   def handle_event("start_game", %{"p2_name" => p2_name}, socket) do
-    p1_name = socket.assigns.current_user.username
-    # Starts a supervised process in charge of hanlde the state of the game
-    _ = FiarReloaded.start_game(p1_name, p2_name)
+    case get_in(socket.assigns, [:current_user, :username]) do
+      nil ->
+        {:noreply, push_patch(socket, to: Routes.user_index_path(socket, :new))}
 
-    {:noreply, socket}
+      p1_name ->
+        # Starts a supervised process in charge of hanlde the state of the game
+        _ = FiarReloaded.start_game(p1_name, p2_name)
+        {:noreply, socket}
+    end
   end
 
   @impl true
@@ -120,7 +125,13 @@ defmodule FiarReloadedWeb.UserLive.Index do
   end
 
   # @impl true
-  def handle_info(%{event: "chip_dropped", payload: %{:game => game, :result => result, :player_number => player_number}}, socket) do
+  def handle_info(
+        %{
+          event: "chip_dropped",
+          payload: %{:game => game, :result => result, :player_number => player_number}
+        },
+        socket
+      ) do
     last_row = game.last_row_played
     last_col = game.last_col_played
 
@@ -155,7 +166,7 @@ defmodule FiarReloadedWeb.UserLive.Index do
 
   # @imp true
   def handle_info(%{event: "release_players", payload: ex_players}, socket) do
-    {:noreply, update(socket, :players_in_game, &(Enum.reject(&1, fn pl -> pl in ex_players end)))}
+    {:noreply, update(socket, :players_in_game, &Enum.reject(&1, fn pl -> pl in ex_players end))}
   end
 
   # @imp true
